@@ -69,6 +69,7 @@
     <question id="5">
         <answer> 3 </answer>
         <sql>
+            <![CDATA[
            SELECT count(*)
            FROM (
            SELECT one.actorid AS a, two.actorid AS b, count(*)
@@ -78,6 +79,7 @@
            WHERE one.actorid < two.actorid
            GROUP BY one.actorid, two.actorid
            HAVING count(*) > 10);
+            ]]>
         </sql>
     </question>
 
