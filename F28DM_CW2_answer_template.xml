@@ -17,21 +17,35 @@
     <question id="1">
         <answer> The Lodger </answer>
         <sql>
-          SELECT title FROM imdb.movies ORDER BY year ASC;
+          SELECT title 
+          FROM imdb.movies 
+          ORDER BY year ASC;
         </sql>
     </question>
 
     <question id="2">
         <answer> 2 </answer>
         <sql>
-           SELECT count(*) FROM ( SELECT movieid FROM imdb.movies2directors GROUP BY movieid HAVING count(directorid) > 7 );
+           SELECT count(*) 
+           FROM ( 
+           SELECT movieid
+           FROM imdb.movies2directors 
+           GROUP BY movieid 
+           HAVING count(directorid) > 7 );
         </sql>
     </question>
 
     <question id="3">
         <answer> 1940 </answer>
         <sql>
-           SELECT year FROM imdb.movies JOIN ( SELECT movieid FROM imdb.movies2directors GROUP BY movieid ORDER BY count(directorid) DESC LIMIT 1)d ON imdb.movies.movieid = d.movieid;
+           SELECT year 
+           FROM imdb.movies 
+           JOIN ( 
+           SELECT movieid 
+           FROM imdb.movies2directors 
+           GROUP BY movieid 
+           ORDER BY count(directorid) DESC LIMIT 1)d 
+           ON imdb.movies.movieid = d.movieid;
         </sql>
     </question>
 
@@ -81,7 +95,9 @@
     <question id="7">
         <answer> 15 </answer>
         <sql>
-           SELECT count(movieid) FROM imdb.movies2directors WHERE genre IS null;
+           SELECT count(movieid) 
+           FROM imdb.movies2directors 
+           WHERE genre IS null;
         </sql>
     </question>
 
