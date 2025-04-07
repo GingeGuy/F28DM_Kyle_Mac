@@ -52,6 +52,7 @@
     <question id="4">
         <answer> 2500324 </answer>
         <sql>
+            <![CDATA[
            SELECT count(notth), notth FROM ( 
            SELECT a.actorid AS notth, b.actorid AS th
            FROM imdb.movies2actors a, imdb.movies2actors b 
@@ -61,6 +62,7 @@
            GROUP BY notth
            ORDER BY count DESC 
            LIMIT 1;
+            ]]>
         </sql>
     </question>
 
