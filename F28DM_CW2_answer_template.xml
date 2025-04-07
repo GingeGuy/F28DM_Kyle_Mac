@@ -1,7 +1,7 @@
 <data>
 
 <!--UPDATE WITH YOUR USERNAME -->
-    <USERNAME>abc123</USERNAME>
+    <USERNAME>km2113</USERNAME>
 
 <!--START OF EXAMPLE -->
     <question id="0">
@@ -15,51 +15,73 @@
 <!--START OF YOUR ANSWERS and SQL STATEMENTS-->
 
     <question id="1">
-        <answer></answer>
+        <answer> The Lodger </answer>
         <sql>
-  
+          SELECT title FROM imdb.movies ORDER BY year ASC;
         </sql>
     </question>
 
     <question id="2">
-        <answer></answer>
+        <answer> 2 </answer>
         <sql>
-       
+           SELECT count(*) FROM ( SELECT movieid FROM imdb.movies2directors GROUP BY movieid HAVING count(directorid) > 7 );
         </sql>
     </question>
 
     <question id="3">
-        <answer></answer>
+        <answer> 1940 </answer>
         <sql>
-       
+           SELECT year FROM imdb.movies JOIN ( SELECT movieid FROM imdb.movies2directors GROUP BY movieid ORDER BY count(directorid) DESC LIMIT 1)d ON imdb.movies.movieid = d.movieid;
         </sql>
     </question>
 
     <question id="4">
-        <answer></answer>
+        <answer> 2500324 </answer>
         <sql>
-       
+           SELECT count(notth), notth FROM ( 
+           SELECT a.actorid as notth, b.actorid as th
+           FROM imdb.movies2actors a, imdb.movies2actors b 
+           WHERE a.actorid <> b.actorid
+           AND a.movieid = b.movieid
+           AND b.actorid = '643265' )
+           GROUP BY notth
+           ORDER BY count DESC 
+           LIMIT 1;
         </sql>
     </question>
 
     <question id="5">
-        <answer></answer>
+        <answer> 3 </answer>
         <sql>
-       
+           SELECT count(*)
+           FROM (
+           SELECT one.actorid as a, two.actorid as b, count(*)
+           FROM imdb.movies2actors one
+           JOIN imdb.movies2actors two
+           ON one.movieid = two.movieid
+           WHERE one.actorid < two.actorid
+           GROUP BY one.actorid, two.actorid
+           HAVING count(*) > 10);
         </sql>
     </question>
 
     <question id="6">
-        <answer></answer>
+        <answer> 1930 </answer>
         <sql>
-       
+           SELECT (imdb.movies.year / 10) * 10 
+           FROM imdb.movies
+           INNER JOIN imdb.ratings
+           ON movies.movieid = ratings.movieid
+           GROUP BY ((year/10) * 10)
+           ORDER BY avg(cast(imdb.ratings.rank as decimal)) DESC
+           LIMIT 1;
         </sql>
     </question>
 
     <question id="7">
-        <answer></answer>
+        <answer> 15 </answer>
         <sql>
-       
+           SELECT count(movieid) FROM imdb.movies2directors WHERE genre IS null;
         </sql>
     </question>
 
@@ -71,9 +93,16 @@
     </question>
 
     <question id="9">
-        <answer></answer>
+        <answer> 154945 </answer>
         <sql>
-       
+           SELECT directorid
+           FROM imdb.movies2directors
+           INNER JOIN imdb.runningtimes
+           ON movies2directors.movieid = runningtimes.movieid
+           WHERE time1 > 160
+           GROUP BY directorid
+           ORDER BY count(*) DESC
+           LIMIT 1;
         </sql>
     </question>
 
@@ -85,9 +114,9 @@
     </question>
 
     <question id="11">
-        <answer></answer>
+        <answer>  </answer>
         <sql>
-       
+           
         </sql>
     </question>
 
@@ -113,9 +142,13 @@
     </question>
 
     <question id="15">
-        <answer></answer>
+        <answer> 2024-01-28 00:00:00 </answer>
         <sql>
-       
+           SELECT DATE_BIN('48 hours', datetime, TIMESTAMP '2010-01-01 00:00:00') AS eq, count(*) AS datetime
+           FROM quakes.scotquakes
+           GROUP BY eq
+           ORDER BY count(*) DESC
+           LIMIT 1;
         </sql>
     </question>
 
@@ -162,17 +195,17 @@
     </question>
 
     <question id="22">
-        <answer></answer>
+        <answer>  </answer>
         <sql>
-       
+           
         </sql>
     </question>
 
 
     <question id="23">
-        <answer></answer>
+        <answer>  </answer>
         <sql>
-       
+           
         </sql>
     </question>
 
