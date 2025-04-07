@@ -39,7 +39,7 @@
         <answer> 2500324 </answer>
         <sql>
            SELECT count(notth), notth FROM ( 
-           SELECT a.actorid as notth, b.actorid as th
+           SELECT a.actorid AS notth, b.actorid AS th
            FROM imdb.movies2actors a, imdb.movies2actors b 
            WHERE a.actorid <> b.actorid
            AND a.movieid = b.movieid
@@ -55,7 +55,7 @@
         <sql>
            SELECT count(*)
            FROM (
-           SELECT one.actorid as a, two.actorid as b, count(*)
+           SELECT one.actorid AS a, two.actorid AS b, count(*)
            FROM imdb.movies2actors one
            JOIN imdb.movies2actors two
            ON one.movieid = two.movieid
@@ -73,7 +73,7 @@
            INNER JOIN imdb.ratings
            ON movies.movieid = ratings.movieid
            GROUP BY ((year/10) * 10)
-           ORDER BY avg(cast(imdb.ratings.rank as decimal)) DESC
+           ORDER BY avg(cast(imdb.ratings.rank AS decimal)) DESC
            LIMIT 1;
         </sql>
     </question>
@@ -114,9 +114,13 @@
     </question>
 
     <question id="11">
-        <answer>  </answer>
+        <answer> 74 </answer>
         <sql>
-           
+           SELECT count(*)
+           FROM scenicornot.locations
+           WHERE ST_DWithin(
+           scenicornot.locations.geom_bng,
+           ST_SetSRID(ST_MakePoint(530000, 180000), 27700), 5000 );
         </sql>
     </question>
 
@@ -167,16 +171,21 @@
     </question>
 
     <question id="18">
-        <answer></answer>
+        <answer> 1.171 </answer>
         <sql>
-       
+           SELECT avg(spd) 
+           FROM trajectory.tracking
+           WHERE userid = 'p3';
         </sql>
     </question>
 
     <question id="19">
-        <answer></answer>
+        <answer> p1 </answer>
         <sql>
-       
+           SELECT userid, count(userid)
+           FROM trajectory.tracking
+           GROUP BY userid
+           LIMIT 1;
         </sql>
     </question>
 
@@ -195,17 +204,27 @@
     </question>
 
     <question id="22">
-        <answer>  </answer>
+        <answer> 8 </answer>
         <sql>
-           
+           SELECT EXTRACT(MONTH FROM date_taken) AS m, count(*) AS months
+           FROM flickr.flickr_edin
+           GROUP BY m
+           ORDER BY months DESC 
+           LIMIT 1;
         </sql>
     </question>
 
 
     <question id="23">
-        <answer>  </answer>
+        <answer> 19473027@N00 </answer>
         <sql>
-           
+           SELECT userid
+           FROM flickr.flickr_edin AS e
+           JOIN flickr.grid100m AS g
+           ON ST_Intersects(e.geom, g.geom)
+           GROUP BY userid
+           ORDER BY count(DISTINCT g.id) DESC
+           LIMIT 1;
         </sql>
     </question>
 
